@@ -13,6 +13,7 @@ import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';
 import { ParentDashboard } from './pages/ParentDashboard';
 import { LeaderboardPage } from './pages/LeaderboardPage';
+import { PreschoolPage } from './pages/PreschoolPage';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
 import { useAuth } from './contexts/AuthContext';
 import { useProgress } from './stores/progress-store';
@@ -120,6 +121,10 @@ function App() {
                 <Route
                   path="/parent"
                   element={<ParentDashboard />}
+                />
+                <Route
+                  path="/preschool"
+                  element={<PreschoolPage />}
                 />
               </Routes>
             </div>
