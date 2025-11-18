@@ -24,6 +24,15 @@ export const AVATARS = [
   '🦄', '🐲', '🦖', '🐳', '🐬', '🐙',
 ] as const;
 
+export const PRESCHOOL_TOPICS = [
+  { id: 'comparison', name: 'גדול או קטן?', nameEn: 'Bigger or Smaller', emoji: '🔢', color: 'from-blue-400 to-purple-400' },
+  { id: 'counting', name: 'ספירה', nameEn: 'Counting', emoji: '🔢', color: 'from-green-400 to-teal-400' },
+  { id: 'recognition', name: 'זיהוי מספרים', nameEn: 'Number Recognition', emoji: '🎯', color: 'from-purple-400 to-pink-400' },
+  { id: 'sequence', name: 'מספר חסר', nameEn: 'Missing Number', emoji: '🧩', color: 'from-yellow-400 to-orange-400' },
+  { id: 'moreorless', name: 'יותר או פחות', nameEn: 'More or Less', emoji: '⚖️', color: 'from-red-400 to-pink-400' },
+  { id: 'matching', name: 'התאמות', nameEn: 'Matching', emoji: '🎨', color: 'from-cyan-400 to-blue-400' },
+] as const;
+
 export const TOPICS = [
   { id: 'addition-10', name: 'חיבור עד 10', nameEn: 'Addition up to 10', grade: 1 },
   { id: 'addition-20', name: 'חיבור עד 20', nameEn: 'Addition up to 20', grade: 1 },
