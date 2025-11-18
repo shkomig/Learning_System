@@ -1,9 +1,13 @@
-import { Link, useLocation } from 'react-router-dom';
-import { Home, BookOpen, Trophy, Settings, User } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Home, BookOpen, Trophy, Settings, User, LogOut } from 'lucide-react';
+import { useAuth } from '../../contexts/AuthContext';
 import { useProgress } from '../../stores/progress-store';
+import { Button } from '../common/Button';
 
 export function Navigation() {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
   const { points, level, currentAvatar } = useProgress();
 
   const navItems = [
@@ -13,6 +17,13 @@ export function Navigation() {
     { path: '/profile', icon: User, label: 'פרופיל' },
     { path: '/settings', icon: Settings, label: 'הגדרות' },
   ];
+
+  const handleLogout = () => {
+    if (window.confirm('האם אתה בטוח שברצונך להתנתק?')) {
+      logout();
+      navigate('/login');
+    }
+  };
 
   return (
     <nav className="bg-white shadow-lg">
@@ -32,7 +43,7 @@ export function Navigation() {
             {navItems.map((item) => {
               const Icon = item.icon;
               const isActive = location.pathname === item.path;
-              
+
               return (
                 <Link
                   key={item.path}
@@ -40,8 +51,8 @@ export function Navigation() {
                   className={`
                     flex items-center gap-2 px-4 py-2 rounded-xl
                     transition-all duration-200
-                    ${isActive 
-                      ? 'bg-primary text-white shadow-md' 
+                    ${isActive
+                      ? 'bg-primary text-white shadow-md'
                       : 'text-text hover:bg-gray-100'
                     }
                   `}
@@ -53,20 +64,38 @@ export function Navigation() {
             })}
           </div>
 
-          {/* User Info */}
+          {/* User Info & Logout */}
           <div className="flex items-center gap-4">
+            {/* Stats */}
             <div className="text-right">
-              <p className="text-sm font-semibold text-text">רמה {level}</p>
-              <p className="text-xs text-text/70">{points} נקודות</p>
+              <p className="text-sm font-semibold text-text">
+                {user?.name || 'תלמיד'}
+              </p>
+              <p className="text-xs text-text/70">
+                רמה {level} • {points} נקודות
+              </p>
             </div>
-            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-2xl">
-              {currentAvatar}
-            </div>
+
+            {/* Avatar */}
+            <Link to="/profile">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-2xl cursor-pointer hover:scale-110 transition-transform">
+                {currentAvatar}
+              </div>
+            </Link>
+
+            {/* Logout Button */}
+            <Button
+              onClick={handleLogout}
+              variant="outline"
+              size="sm"
+              className="flex items-center gap-2"
+            >
+              <LogOut className="w-4 h-4" />
+              <span className="hidden md:inline">התנתק</span>
+            </Button>
           </div>
         </div>
       </div>
     </nav>
   );
 }
-
-
