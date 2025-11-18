@@ -2,8 +2,13 @@ import { useState } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import { AdditionExercise } from './components/student/AdditionExercise';
 import { SubtractionExercise } from './components/student/SubtractionExercise';
+import { MultiplicationExercise } from './components/student/MultiplicationExercise';
 import { Dashboard } from './components/student/Dashboard';
 import { Navigation } from './components/layout/Navigation';
+import { AchievementsPage } from './pages/AchievementsPage';
+import { ProfilePage } from './pages/ProfilePage';
+import { SettingsPage } from './pages/SettingsPage';
+import { ExercisesPage } from './pages/ExercisesPage';
 import { useProgress } from './stores/progress-store';
 import type { Difficulty } from './types';
 
@@ -30,7 +35,7 @@ function App() {
 
   // If in exercise mode, show exercise
   if (currentExercise) {
-    // Check if it's a subtraction exercise
+    // Check exercise type
     if (currentExercise.type.includes('subtraction')) {
       return (
         <SubtractionExercise
@@ -40,7 +45,17 @@ function App() {
         />
       );
     }
-    
+
+    if (currentExercise.type.includes('multiplication')) {
+      return (
+        <MultiplicationExercise
+          difficulty={currentExercise.difficulty}
+          onComplete={handleCompleteExercise}
+          studentLevel={level}
+        />
+      );
+    }
+
     // Default to addition exercise
     return (
       <AdditionExercise
@@ -55,25 +70,25 @@ function App() {
     <div className="min-h-screen bg-background" dir="rtl">
       <Navigation />
       <Routes>
-        <Route 
-          path="/" 
-          element={<Dashboard onStartExercise={handleStartExercise} />} 
+        <Route
+          path="/"
+          element={<Dashboard onStartExercise={handleStartExercise} />}
         />
-        <Route 
-          path="/exercises" 
-          element={<Dashboard onStartExercise={handleStartExercise} />} 
+        <Route
+          path="/exercises"
+          element={<ExercisesPage onStartExercise={handleStartExercise} />}
         />
-        <Route 
-          path="/achievements" 
-          element={<Dashboard onStartExercise={handleStartExercise} />} 
+        <Route
+          path="/achievements"
+          element={<AchievementsPage />}
         />
-        <Route 
-          path="/profile" 
-          element={<Dashboard onStartExercise={handleStartExercise} />} 
+        <Route
+          path="/profile"
+          element={<ProfilePage />}
         />
-        <Route 
-          path="/settings" 
-          element={<Dashboard onStartExercise={handleStartExercise} />} 
+        <Route
+          path="/settings"
+          element={<SettingsPage />}
         />
       </Routes>
     </div>
