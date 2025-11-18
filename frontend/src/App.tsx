@@ -11,6 +11,8 @@ import { SettingsPage } from './pages/SettingsPage';
 import { ExercisesPage } from './pages/ExercisesPage';
 import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';
+import { ParentDashboard } from './pages/ParentDashboard';
+import { LeaderboardPage } from './pages/LeaderboardPage';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
 import { useAuth } from './contexts/AuthContext';
 import { useProgress } from './stores/progress-store';
@@ -110,6 +112,14 @@ function App() {
                 <Route
                   path="/settings"
                   element={<SettingsPage />}
+                />
+                <Route
+                  path="/leaderboard"
+                  element={<LeaderboardPage />}
+                />
+                <Route
+                  path="/parent"
+                  element={<ParentDashboard />}
                 />
               </Routes>
             </div>

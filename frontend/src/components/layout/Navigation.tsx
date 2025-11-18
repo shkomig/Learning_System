@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Home, BookOpen, Trophy, Settings, User, LogOut } from 'lucide-react';
+import { Home, BookOpen, Trophy, Settings, User, LogOut, Award, Users } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useProgress } from '../../stores/progress-store';
 import { Button } from '../common/Button';
@@ -13,10 +13,16 @@ export function Navigation() {
   const navItems = [
     { path: '/', icon: Home, label: 'בית' },
     { path: '/exercises', icon: BookOpen, label: 'תרגילים' },
+    { path: '/leaderboard', icon: Award, label: 'טבלת מובילים' },
     { path: '/achievements', icon: Trophy, label: 'הישגים' },
     { path: '/profile', icon: User, label: 'פרופיל' },
     { path: '/settings', icon: Settings, label: 'הגדרות' },
   ];
+
+  // Add parent dashboard if user is parent
+  if (user?.role === 'parent') {
+    navItems.splice(1, 0, { path: '/parent', icon: Users, label: 'דשבורד הורים' });
+  }
 
   const handleLogout = () => {
     if (window.confirm('האם אתה בטוח שברצונך להתנתק?')) {
