@@ -1,0 +1,19 @@
+# תלויות למערכת מסחר אוטומטית
+
+# Web Framework
+Flask==3.0.0
+Werkzeug==3.0.1
+
+# Data Processing
+pandas==2.1.4
+numpy==1.26.2
+
+# Charting (אופציונלי - לגרפים מתקדמים)
+matplotlib==3.8.2
+
+# Interactive Brokers API
+ib-insync==0.9.86
+
+# Testing
+pytest==7.4.3
+requests==2.31.0

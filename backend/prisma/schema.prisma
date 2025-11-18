@@ -1,0 +1,123 @@
+// This is your Prisma schema file
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Student {
+  id            String   @id @default(uuid())
+  name          String
+  email         String?  @unique
+  password      String?
+  avatar        String   @default("👧")
+  level         Int      @default(1)
+  points        Int      @default(0)
+  streak        Int      @default(0)
+  lastLoginDate DateTime?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  progress      StudentProgress[]
+  badges        Badge[]
+  sessions      Session[]
+
+  @@map("students")
+}
+
+model Exercise {
+  id         String   @id @default(uuid())
+  type       String   // addition, subtraction, multiplication, division
+  difficulty String   // easy, medium, hard
+  topic      String
+  num1       Int
+  num2       Int
+  answer     Int
+  visualType String   @default("fruits") // fruits, animals, blocks
+  hints      String   // JSON array of hints
+  createdAt  DateTime @default(now())
+
+  // Relations
+  progress StudentProgress[]
+
+  @@index([type, difficulty])
+  @@index([topic])
+  @@map("exercises")
+}
+
+model StudentProgress {
+  id          String   @id @default(uuid())
+  studentId   String
+  exerciseId  String
+  answer      Int
+  isCorrect   Boolean
+  attempts    Int      @default(1)
+  timeSpent   Int      // in milliseconds
+  hintsUsed   Int      @default(0)
+  completedAt DateTime @default(now())
+
+  // Relations
+  student  Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  exercise Exercise @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
+
+  @@index([studentId])
+  @@index([exerciseId])
+  @@index([completedAt])
+  @@map("student_progress")
+}
+
+model Achievement {
+  id             String @id @default(uuid())
+  name           String
+  nameHe         String
+  description    String
+  descriptionHe  String
+  icon           String
+  category       String // topic_mastery, streak, speed, helper, explorer
+  requirement    Int    // number needed to unlock
+  createdAt      DateTime @default(now())
+
+  // Relations
+  badges Badge[]
+
+  @@unique([name])
+  @@map("achievements")
+}
+
+model Badge {
+  id            String   @id @default(uuid())
+  studentId     String
+  achievementId String
+  unlockedAt    DateTime @default(now())
+  displayed     Boolean  @default(true)
+
+  // Relations
+  student     Student     @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  achievement Achievement @relation(fields: [achievementId], references: [id], onDelete: Cascade)
+
+  @@unique([studentId, achievementId])
+  @@index([studentId])
+  @@map("badges")
+}
+
+model Session {
+  id        String   @id @default(uuid())
+  studentId String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  // Relations
+  student Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@index([studentId])
+  @@index([token])
+  @@map("sessions")
+}
+
+
